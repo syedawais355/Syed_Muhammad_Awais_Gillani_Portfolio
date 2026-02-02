@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Syed Muhammad Awais Gillani | AI & Python Developer Portfolio</title>
+    <meta name="title" content="Syed Muhammad Awais Gillani | AI & Python Developer Portfolio" />
+    <meta name="description" content="Second-year BSCS student and advanced Python developer specializing in AI, automation, web scraping, Django, FastAPI, and Google Apps Script. Building intelligent solutions that make a difference." />
+    <meta name="keywords" content="Python Developer, AI Developer, Web Scraping, Automation, Django, FastAPI, Selenium, Google Apps Script, Portfolio, Syed Muhammad Awais Gillani" />
+    <meta name="author" content="Syed Muhammad Awais Gillani" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://iamawaisgillani.vercel.app/" />
+    <meta property="og:title" content="Syed Muhammad Awais Gillani | AI & Python Developer" />
+    <meta property="og:description" content="Second-year BSCS student and advanced Python developer specializing in AI, automation, and web scraping solutions." />
+    <meta property="og:image" content="https://iamawaisgillani.vercel.app/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://iamawaisgillani.vercel.app/" />
+    <meta property="twitter:title" content="Syed Muhammad Awais Gillani | AI & Python Developer" />
+    <meta property="twitter:description" content="Second-year BSCS student and advanced Python developer specializing in AI, automation, and web scraping solutions." />
+    <meta property="twitter:image" content="https://iamawaisgillani.vercel.app/og-image.jpg" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='url(%23grad)'/%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%238b5cf6'/%3E%3Cstop offset='100%25' style='stop-color:%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='system-ui' font-weight='bold' font-size='50' fill='white'%3EA%3C/text%3E%3C/svg%3E" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f0f1a" />
+    <meta name="msapplication-TileColor" content="#0f0f1a" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://iamawaisgillani.vercel.app/" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Syed Muhammad Awais Gillani",
+      "alternateName": "Awais Gillani",
+      "jobTitle": "AI & Python Developer",
+      "description": "Second-year BSCS student and advanced Python developer specializing in AI, automation, web scraping, Django, FastAPI, and Google Apps Script.",
+      "url": "https://iamawaisgillani.vercel.app/",
+      "sameAs": [
+        "https://github.com/iamawaisgillani",
+        "https://www.linkedin.com/in/syed-muhammad-awais-gillani"
+      ],
+      "knowsAbout": [
+        "Python",
+        "Django",
+        "FastAPI",
+        "Selenium",
+        "Web Scraping",
+        "Automation",
+        "Google Apps Script",
+        "AI Development"
+      ],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "BSCS Program"
+      }
+    }
+    </script>
+    
+    <style>
+      /* Critical CSS for initial load */
+      html {
+        background-color: #0a0a0f;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #0a0a0f;
+        color: #ffffff;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      #root {
+        min-height: 100vh;
+      }
+      /* Loading state */
+      .initial-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #0a0a0f;
+        z-index: 9999;
+      }
+      .initial-loader.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Initial Loader (removed by React) -->
+    <div class="initial-loader" id="initial-loader">
+      <div style="width: 40px; height: 40px; border: 3px solid rgba(139, 92, 246, 0.3); border-top-color: #8b5cf6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    </div>
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Remove initial loader when React loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var loader = document.getElementById('initial-loader');
+          if (loader) {
+            loader.classList.add('hidden');
+          }
+        }, 500);
+      });
+    </script>
+  </body>
+</html>
