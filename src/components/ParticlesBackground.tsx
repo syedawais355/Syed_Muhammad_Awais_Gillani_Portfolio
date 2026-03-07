@@ -20,19 +20,19 @@ const ParticlesBackground = memo(() => {
           value: 'transparent',
         },
       },
-      fpsLimit: 120,
+      fpsLimit: 60,
       interactivity: {
         detectsOn: 'window' as const,
         events: {
           onClick: {
             enable: true,
-            mode: ['push', 'bubble'] as any,
+            mode: 'push' as any,
           },
           onHover: {
             enable: true,
-            mode: ['grab', 'bubble'] as any,
+            mode: 'grab' as any,
             parallax: {
-              enable: true,
+              enable: false,
               force: 60,
               smooth: 10,
             },
@@ -49,17 +49,10 @@ const ParticlesBackground = memo(() => {
           grab: {
             distance: 200,
             links: {
-              blink: true,
+              blink: false,
               consent: false,
               opacity: 0.8,
             },
-          },
-          bubble: {
-            distance: 250,
-            size: 8,
-            duration: 2,
-            opacity: 0.8,
-            speed: 3,
           },
           repulse: {
             distance: 150,
@@ -90,7 +83,7 @@ const ParticlesBackground = memo(() => {
           opacity: 0.35,
           width: 1.5,
           triangles: {
-            enable: true,
+            enable: false,
             frequency: 0.05,
             opacity: 0.08,
           },
@@ -128,7 +121,7 @@ const ParticlesBackground = memo(() => {
             enable: true,
             area: 900,
           },
-          value: 120,
+          value: 60,
         },
         opacity: {
           value: {
@@ -150,10 +143,10 @@ const ParticlesBackground = memo(() => {
         size: {
           value: {
             min: 2,
-            max: 6,
+            max: 4,
           },
           animation: {
-            enable: true,
+            enable: false,
             speed: 2,
             minimumValue: 1.5,
             sync: false,
@@ -214,17 +207,17 @@ const ParticlesBackground = memo(() => {
           },
         },
       },
-      detectRetina: true,
-      smooth: true,
+      detectRetina: false,
+      smooth: false,
       pauseOnBlur: true,
-      pauseOnOutsideViewport: false,
+      pauseOnOutsideViewport: true,
       responsive: [
         {
           maxWidth: 768,
           options: {
             particles: {
               number: {
-                value: 40,
+                value: 25,
               },
               links: {
                 distance: 120,

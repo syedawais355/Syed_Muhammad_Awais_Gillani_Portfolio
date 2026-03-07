@@ -115,8 +115,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
 @keyframes slide-up {
@@ -137,6 +137,29 @@
 @keyframes scale-in {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
+}
+
+/* Card shine sweep — triggered by .group:hover, CSS-only (no JS/Framer) */
+@keyframes shine-sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(200%); }
+}
+.shine-sweep {
+  background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  transform: translateX(-100%);
+}
+.group:hover .shine-sweep {
+  animation: shine-sweep 0.8s ease-in-out forwards;
+}
+
+/* Arrow nudge — replaces Framer Motion repeat: Infinity on Contact arrow */
+@keyframes arrow-nudge {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(5px); }
+}
+.animate-arrow-nudge {
+  display: inline-block;
+  animation: arrow-nudge 1.5s ease-in-out infinite;
 }
 
 .animate-float {
