@@ -12,7 +12,6 @@ import './App.css';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     // Simulate initial loading
@@ -20,15 +19,7 @@ function App() {
       setIsLoading(false);
     }, 1500);
 
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -96,7 +87,7 @@ function App() {
           </div>
           
           {/* Navigation */}
-          <Navigation scrollY={scrollY} />
+          <Navigation />
           
           {/* Main Content */}
           <main className="relative z-10">

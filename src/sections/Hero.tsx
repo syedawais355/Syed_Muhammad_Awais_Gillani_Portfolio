@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, animate, useInView, type Variants } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Code2, Sparkles } from 'lucide-react';
 
 const Hero = () => {
@@ -38,28 +38,15 @@ const Hero = () => {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
-      {/* Floating Background Icons */}
+      {/* Floating Background Icons — fade in once, then CSS float */}
       {floatingIcons.map(({ Icon, delay, x, y }, index) => (
         <motion.div
           key={index}
-          className="absolute text-primary/20 pointer-events-none hidden lg:block"
-          style={{ left: x, top: y }}
+          className="absolute text-primary/20 pointer-events-none hidden lg:block animate-float"
+          style={{ left: x, top: y, animationDelay: `${delay}s`, animationDuration: `${4 + index * 0.5}s` }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: [0, -20, 0],
-          }}
-          transition={{
-            opacity: { delay: delay + 1, duration: 0.5 },
-            scale: { delay: delay + 1, duration: 0.5 },
-            y: {
-              delay: delay + 1.5,
-              duration: 4,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            },
-          }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: delay + 1, duration: 0.5, ease: 'easeOut' }}
         >
           <Icon size={40 + index * 10} strokeWidth={1} />
         </motion.div>
@@ -120,94 +107,46 @@ const Hero = () => {
 
 const StatItem = ({ value, suffix, label, index }: { value: number; suffix: string; label: string; index: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
-  const [isHovered, setIsHovered] = useState(false);
-  const tilt = index % 2 === 0 ? 1 : -1; // Subtle alternating tilt
+  const tilt = index % 2 === 0 ? 1 : -1;
 
   useEffect(() => {
     if (isInView) {
-      const controls = animate(count, value, {
-        duration: 2.5,
-        delay: 0.5,
-        ease: "easeOut",
-      });
-
+      const controls = animate(count, value, { duration: 2.5, delay: 0.5, ease: 'easeOut' });
       return controls.stop;
     }
-  }, [isInView, value, index, count]);
+  }, [isInView, value, count]);
 
   return (
     <motion.div
       ref={ref}
-      className="relative group w-full"
-      style={{
-        zIndex: isHovered ? 20 : 1,
-      }}
+      className="relative group w-full hover:z-20"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.2 + index * 0.1, duration: 0.5 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      transition={{ delay: 0.2 + index * 0.1, duration: 0.5, ease: 'easeOut' }}
     >
       <motion.div
-        className="relative z-10 p-6 rounded-2xl backdrop-blur-md overflow-hidden"
+        className="relative p-6 rounded-2xl backdrop-blur-sm overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-          boxShadow: `
-            0 8px 32px 0 rgba(0, 0, 0, 0.1),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-            inset 0 -1px 0 0 rgba(255, 255, 255, 0.05)
-          `,
           border: '1px solid rgba(255, 255, 255, 0.08)',
           rotate: `${tilt}deg`,
-          willChange: 'transform, box-shadow',
         }}
-        whileHover={{
-          y: -8,
-          scale: 1.05,
-          rotate: 0,
-          boxShadow: `
-            0 20px 40px -12px rgba(139, 92, 246, 0.3),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)
-          `,
-        }}
-        transition={{
-          duration: 0.3,
-          ease: [0.25, 0.1, 0.25, 1]
-        }}
+        whileHover={{ y: -8, scale: 1.05, rotate: 0 }}
+        transition={{ duration: 0.22, ease: 'easeOut' }}
       >
-        {/* Animated gradient background - subtle */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-2xl"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-        />
+        {/* Gradient overlay — CSS transition, zero JS overhead */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-        {/* Mesh gradient overlay */}
-        <div
-          className="absolute inset-0 opacity-20 rounded-2xl"
-          style={{
-            background: `radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 70%)`
-          }}
-        />
-
-        {/* Animated shine effect */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100"
-            style={{
-              background: 'linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%)',
-            }}
-            animate={isHovered ? { x: ['-100%', '200%'] } : { x: '-100%' }}
-            transition={{ duration: 1.2, ease: 'easeInOut' }}
-          />
+        {/* Shine — CSS keyframe, no Framer Motion */}
+        <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+          <div className="shine-sweep absolute inset-0" />
         </div>
 
-        {/* Frosted border */}
-        <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/20 transition-all duration-300 pointer-events-none" />
+        {/* Border highlight */}
+        <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/20 transition-colors duration-300 pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
@@ -217,8 +156,7 @@ const StatItem = ({ value, suffix, label, index }: { value: number; suffix: stri
             </motion.span>
             <span className="text-2xl sm:text-3xl font-display font-bold text-primary">{suffix}</span>
           </div>
-
-          <div className="text-xs sm:text-sm text-muted-foreground font-medium tracking-wide group-hover:text-white transition-colors text-center uppercase">
+          <div className="text-xs sm:text-sm text-muted-foreground font-medium tracking-wide group-hover:text-white transition-colors duration-200 text-center uppercase">
             {label}
           </div>
         </div>

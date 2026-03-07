@@ -157,12 +157,7 @@ const Contact = () => {
                 className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-medium"
               >
                 Message me on LinkedIn
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
+                <span className="animate-arrow-nudge">→</span>
               </a>
             </motion.div>
           </motion.div>

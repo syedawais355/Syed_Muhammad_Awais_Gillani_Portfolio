@@ -1,97 +1,50 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 // Reusable Tech Badge Component
 const TechBadge = ({ name, icon, delay, isInView, showLabel = true, index }: { name: string; icon: string; delay: number; isInView: boolean; showLabel?: boolean; index: number }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const tilt = index % 2 === 0 ? 0.6 : -0.6; // Subtle alternating tilt for initial state
+  const tilt = index % 2 === 0 ? 0.6 : -0.6;
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+      initial={{ opacity: 0, scale: 0.85, y: 16 }}
       animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-      transition={{ delay, duration: 0.4, type: 'spring' }}
-      className="group relative h-full w-full aspect-[1/1.1]"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      style={{
-        zIndex: isHovered ? 20 : 1,
-      }}
+      transition={{ delay, duration: 0.35, ease: 'easeOut' }}
+      className="group relative h-full w-full aspect-[1/1.1] hover:z-20"
     >
       <motion.div
-        className="relative h-full flex flex-col items-center justify-center gap-3 p-4 rounded-2xl backdrop-blur-md overflow-hidden"
+        className="relative h-full flex flex-col items-center justify-center gap-3 p-4 rounded-2xl backdrop-blur-sm overflow-hidden"
         style={{
           background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-          boxShadow: `
-            0 8px 32px 0 rgba(0, 0, 0, 0.1),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
-            inset 0 -1px 0 0 rgba(255, 255, 255, 0.05)
-          `,
           border: '1px solid rgba(255, 255, 255, 0.08)',
           rotate: `${tilt}deg`,
-          willChange: 'transform, box-shadow',
         }}
-        whileHover={{
-          y: -6,
-          scale: 1.04,
-          rotate: 0,
-          boxShadow: `
-            0 20px 40px -12px rgba(139, 92, 246, 0.3),
-            inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-            inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)
-          `,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 220,
-          damping: 15,
-        }}
+        whileHover={{ y: -6, scale: 1.05, rotate: 0 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
       >
-        {/* Animated gradient background - subtle purple/blue for all */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-2xl"
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-        />
+        {/* Gradient overlay — CSS only */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-        {/* Mesh gradient overlay */}
-        <div
-          className="absolute inset-0 opacity-20 rounded-2xl"
-          style={{
-            background: `radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.15) 0%, transparent 70%)`
-          }}
-        />
-
-        {/* Animated shine effect - Clipped */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-          <motion.div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100"
-            style={{
-              background: 'linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%)',
-            }}
-            animate={isHovered ? { x: ['-100%', '200%'] } : { x: '-100%' }}
-            transition={{ duration: 1.2, ease: 'easeInOut' }}
-          />
+        {/* Shine — CSS keyframe only */}
+        <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+          <div className="shine-sweep absolute inset-0" />
         </div>
 
-        {/* Frosted border */}
-        <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/20 transition-all duration-300 pointer-events-none" />
+        {/* Border highlight */}
+        <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/20 transition-colors duration-300 pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center gap-3">
           <motion.div
-            className="relative w-12 h-12 flex items-center justify-center"
-            animate={isHovered ? {
-              scale: 1.15,
-              rotate: [0, -2, 2, -2, 0] // Gentle shake
-            } : { scale: 1, rotate: 0 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="w-12 h-12 flex items-center justify-center"
+            whileHover={{ scale: 1.15 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
           >
-            <img src={icon} alt={name} className="w-full h-full object-contain filter drop-shadow-lg group-hover:drop-shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all duration-300" />
+            <img src={icon} alt={name} className="w-full h-full object-contain drop-shadow-lg group-hover:drop-shadow-[0_0_16px_rgba(139,92,246,0.5)] transition-all duration-300" />
           </motion.div>
 
           {showLabel && (
-            <span className="text-xs font-medium text-muted-foreground group-hover:text-white transition-colors text-center">
+            <span className="text-xs font-medium text-muted-foreground group-hover:text-white transition-colors duration-200 text-center">
               {name}
             </span>
           )}

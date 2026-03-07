@@ -1,38 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
-interface NavigationProps {
-  scrollY: number;
-}
+const navLinks = [
+  { name: 'Home', href: '#hero', id: 'hero' },
+  { name: 'About', href: '#about', id: 'about' },
+  { name: 'Skills', href: '#skills', id: 'skills' },
+  { name: 'Projects', href: '#projects', id: 'projects' },
+  { name: 'Contact', href: '#contact', id: 'contact' },
+];
 
-const Navigation = ({ scrollY }: NavigationProps) => {
+const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-
-  const navLinks = [
-    { name: 'Home', href: '#hero', id: 'hero' },
-    { name: 'About', href: '#about', id: 'about' },
-    { name: 'Skills', href: '#skills', id: 'skills' },
-    { name: 'Projects', href: '#projects', id: 'projects' },
-    { name: 'Contact', href: '#contact', id: 'contact' },
-  ];
+  const [isScrolled, setIsScrolled] = useState(false);
+  // Track current active section without causing stale-closure re-renders
+  const activeSectionRef = useRef('hero');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = navLinks.map(link => document.getElementById(link.id));
+      // Only call setIsScrolled when the boolean changes — avoids re-render on every pixel
+      const scrolled = window.scrollY > 50;
+      setIsScrolled(prev => prev === scrolled ? prev : scrolled);
+
       const scrollPosition = window.scrollY + 200;
-
-      sections.forEach((section, index) => {
+      for (const link of navLinks) {
+        const section = document.getElementById(link.id);
         if (section) {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            setActiveSection(navLinks[index].id);
+          const { offsetTop, offsetHeight } = section;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            // Only update state when the section actually changes
+            if (activeSectionRef.current !== link.id) {
+              activeSectionRef.current = link.id;
+              setActiveSection(link.id);
+            }
+            break;
           }
         }
-      });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -46,8 +51,6 @@ const Navigation = ({ scrollY }: NavigationProps) => {
     }
     setIsMenuOpen(false);
   };
-
-  const isScrolled = scrollY > 50;
 
   return (
     <motion.nav
