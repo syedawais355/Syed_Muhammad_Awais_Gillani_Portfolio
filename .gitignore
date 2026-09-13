@@ -44,3 +44,10 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright MCP scratch output
+.playwright-mcp/
+
+# Raw source photo for the hero cut-out — the shipped asset is
+# src/assets/portrait.webp. Remove this line to track the original.
+portfolio-main.png

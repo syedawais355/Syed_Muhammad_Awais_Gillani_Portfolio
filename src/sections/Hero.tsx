@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useTransform, animate, useInView, type Variants } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { Code2, Sparkles } from 'lucide-react';
+import portrait from '../assets/portrait.webp';
 
 const Hero = () => {
   const containerVariants = {
@@ -26,81 +27,119 @@ const Hero = () => {
     },
   };
 
+  // Kept clear of the portrait column so nothing collides with the subject.
   const floatingIcons = [
-    { Icon: Code2, delay: 0, x: '10%', y: '20%' },
-    { Icon: Sparkles, delay: 0.5, x: '85%', y: '15%' },
-    { Icon: Code2, delay: 1, x: '80%', y: '70%' },
-    { Icon: Sparkles, delay: 1.5, x: '15%', y: '75%' },
+    { Icon: Code2, delay: 0, x: '6%', y: '22%', size: 40 },
+    { Icon: Sparkles, delay: 0.8, x: '46%', y: '80%', size: 32 },
   ];
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16 lg:pt-24 lg:pb-20"
     >
       {/* Floating Background Icons — fade in once, then CSS float */}
-      {floatingIcons.map(({ Icon, delay, x, y }, index) => (
+      {floatingIcons.map(({ Icon, delay, x, y, size }, index) => (
         <motion.div
           key={index}
-          className="absolute text-primary/20 pointer-events-none hidden lg:block animate-float"
-          style={{ left: x, top: y, animationDelay: `${delay}s`, animationDuration: `${4 + index * 0.5}s` }}
+          className="absolute hidden animate-float text-primary/25 dark:text-primary/20 pointer-events-none lg:block"
+          style={{ left: x, top: y, animationDelay: `${delay}s`, animationDuration: `${5 + index}s` }}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: delay + 1, duration: 0.5, ease: 'easeOut' }}
         >
-          <Icon size={40 + index * 10} strokeWidth={1} />
+          <Icon size={size} strokeWidth={1} />
         </motion.div>
       ))}
 
-      {/* Main Content */}
-      <motion.div
-        className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Name */}
-        <motion.h1
-          variants={itemVariants as Variants}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-4"
-        >
-          <span className="text-white">Hi, I'm </span>
-          <span className="gradient-text-animated">Syed Muhammad</span>
-          <br />
-          <span className="gradient-text">Awais Gillani</span>
-        </motion.h1>
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 xl:gap-16">
 
-        {/* Tagline */}
-        <motion.p
-          variants={itemVariants as Variants}
-          className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto"
-        >
-          AI & Python Developer | Automation & Web Scraping Enthusiast
-        </motion.p>
+          {/* ---------------------------------------------------------- Portrait */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="relative order-1 mx-auto w-full max-w-[260px] sm:max-w-[330px] lg:order-2 lg:max-w-[420px]"
+          >
+            {/* Accent bloom behind the subject */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-[8%] aspect-square w-[94%] -translate-x-1/2 rounded-full bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/20 blur-[60px] sm:blur-[80px]"
+            />
 
-        {/* Description */}
-        <motion.p
-          variants={itemVariants as Variants}
-          className="text-base text-muted-foreground/80 mb-10 max-w-xl mx-auto leading-relaxed"
-        >
-          Second-year BSCS student passionate about building intelligent automation systems,
-          web scrapers, and AI-powered solutions that make a difference.
-        </motion.p>
+            {/* Hairline halo the shoulders break out of */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-[11%] aspect-square w-[88%] -translate-x-1/2 rounded-full border border-hairline"
+            />
 
-        {/* Stats - Live & Interactive */}
-        <motion.div
-          variants={itemVariants as Variants}
-          className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto px-4"
-        >
-          {[
-            { value: 5, suffix: '+', label: 'Projects' },
-            { value: 2, suffix: '+', label: 'Years Experience' },
-            { value: 10, suffix: '+', label: 'Technologies' },
-          ].map((stat, index) => (
-            <StatItem key={stat.label} {...stat} index={index} />
-          ))}
-        </motion.div>
-      </motion.div>
+            <div className="portrait-shadow relative z-10">
+              <img
+                src={portrait}
+                alt="Syed Muhammad Awais Gillani"
+                width={900}
+                height={1237}
+                fetchPriority="high"
+                decoding="async"
+                draggable={false}
+                className="portrait-fade w-full select-none object-contain"
+              />
+            </div>
+          </motion.div>
+
+          {/* -------------------------------------------------------------- Copy */}
+          <motion.div
+            className="order-2 text-center lg:order-1 lg:text-left"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Name */}
+            <motion.h1
+              variants={itemVariants as Variants}
+              className="mb-4 font-display text-4xl font-bold sm:text-5xl lg:text-5xl xl:text-6xl"
+            >
+              <span className="text-foreground">Hi, I'm </span>
+              <span className="gradient-text-animated">Syed Muhammad</span>
+              <br />
+              <span className="gradient-text">Awais Gillani</span>
+            </motion.h1>
+
+            {/* Tagline */}
+            <motion.p
+              variants={itemVariants as Variants}
+              className="mx-auto mb-6 max-w-2xl text-lg text-muted-foreground sm:text-xl md:text-2xl lg:mx-0"
+            >
+              AI &amp; Python Developer | Automation &amp; Web Scraping Enthusiast
+            </motion.p>
+
+            {/* Description */}
+            <motion.p
+              variants={itemVariants as Variants}
+              className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground/85 lg:mx-0"
+            >
+              Second-year BSCS student passionate about building intelligent automation systems,
+              web scrapers, and AI-powered solutions that make a difference.
+            </motion.p>
+
+            {/* Stats - Live & Interactive */}
+            <motion.div
+              variants={itemVariants as Variants}
+              className="mx-auto mt-12 grid max-w-md grid-cols-3 gap-4 sm:gap-6 lg:mx-0"
+            >
+              {[
+                { value: 5, suffix: '+', label: 'Projects' },
+                { value: 2, suffix: '+', label: 'Years Experience' },
+                { value: 10, suffix: '+', label: 'Technologies' },
+              ].map((stat, index) => (
+                <StatItem key={stat.label} {...stat} index={index} />
+              ))}
+            </motion.div>
+          </motion.div>
+
+        </div>
+      </div>
     </section>
   );
 };
@@ -122,41 +161,34 @@ const StatItem = ({ value, suffix, label, index }: { value: number; suffix: stri
   return (
     <motion.div
       ref={ref}
-      className="relative group w-full hover:z-20"
+      className="group relative w-full hover:z-20"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: 0.2 + index * 0.1, duration: 0.5, ease: 'easeOut' }}
     >
       <motion.div
-        className="relative p-6 rounded-2xl backdrop-blur-sm overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          rotate: `${tilt}deg`,
-        }}
+        className="surface surface-hover relative overflow-hidden rounded-2xl p-4 sm:p-5"
+        style={{ rotate: `${tilt}deg` }}
         whileHover={{ y: -8, scale: 1.05, rotate: 0 }}
         transition={{ duration: 0.22, ease: 'easeOut' }}
       >
         {/* Gradient overlay — CSS transition, zero JS overhead */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/12 via-secondary/6 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
         {/* Shine — CSS keyframe, no Framer Motion */}
-        <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
           <div className="shine-sweep absolute inset-0" />
         </div>
 
-        {/* Border highlight */}
-        <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/20 transition-colors duration-300 pointer-events-none" />
-
         {/* Content */}
         <div className="relative z-10 flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center gap-1 mb-2">
-            <motion.span className="text-3xl sm:text-4xl font-display font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent group-hover:from-primary group-hover:to-secondary transition-all duration-300">
+          <div className="mb-1 flex items-center justify-center gap-0.5">
+            <motion.span className="bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text font-display text-2xl font-bold text-transparent transition-all duration-300 group-hover:from-primary group-hover:to-secondary sm:text-3xl">
               {rounded}
             </motion.span>
-            <span className="text-2xl sm:text-3xl font-display font-bold text-primary">{suffix}</span>
+            <span className="font-display text-xl font-bold text-primary sm:text-2xl">{suffix}</span>
           </div>
-          <div className="text-xs sm:text-sm text-muted-foreground font-medium tracking-wide group-hover:text-white transition-colors duration-200 text-center uppercase">
+          <div className="text-center text-[10px] font-medium uppercase tracking-wide text-muted-foreground transition-colors duration-200 group-hover:text-foreground sm:text-xs">
             {label}
           </div>
         </div>

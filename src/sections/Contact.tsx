@@ -86,11 +86,11 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-secondary" />
+            <div className="w-12 h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-secondary" />
             <span className="text-primary font-medium text-sm tracking-wider uppercase">
               Get In Touch
             </span>
-            <div className="w-12 h-0.5 bg-gradient-to-r from-secondary to-primary" />
+            <div className="w-12 h-0.5 rounded-full bg-gradient-to-r from-secondary via-primary to-transparent" />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold">
             Let's <span className="gradient-text">Connect</span>
@@ -118,9 +118,9 @@ const Contact = () => {
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.02 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-white/5 hover:border-primary/20 transition-all custom-cursor-hover"
+                  className="surface surface-hover flex items-center gap-4 p-4 rounded-2xl"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
                     {item.image ? (
                       <img src={item.image} alt={item.label} className="w-6 h-6 object-contain" />
                     ) : item.icon ? (
@@ -129,7 +129,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">{item.label}</p>
-                    <p className="text-white font-medium">{item.value}</p>
+                    <p className="text-foreground font-medium">{item.value}</p>
                   </div>
                 </motion.div>
               ))}
@@ -144,7 +144,7 @@ const Contact = () => {
               transition={{ delay: 0.5 }}
               className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20"
             >
-              <h4 className="font-display font-semibold text-white mb-2">
+              <h4 className="font-display font-semibold text-foreground mb-2">
                 Prefer a quick chat?
               </h4>
               <p className="text-sm text-muted-foreground mb-4">
@@ -154,7 +154,7 @@ const Contact = () => {
                 href="https://www.linkedin.com/in/syed-muhammad-awais-gillani"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-medium"
+                className="inline-flex items-center gap-2 text-primary hover:text-foreground transition-colors text-sm font-medium"
               >
                 Message me on LinkedIn
                 <span className="animate-arrow-nudge">→</span>
@@ -168,10 +168,10 @@ const Contact = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="relative p-6 md:p-8 rounded-3xl bg-card border border-white/5">
+            <div className="surface relative p-6 md:p-8 rounded-3xl">
               {/* Form Header */}
               <div className="mb-6">
-                <h3 className="text-xl font-display font-semibold text-white mb-2">
+                <h3 className="text-xl font-display font-semibold text-foreground mb-2">
                   Send a Message
                 </h3>
                 <p className="text-sm text-muted-foreground">
@@ -190,7 +190,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Your name"
                       required
-                      className="bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
+                      className="bg-tint border-hairline focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
                     />
                   </div>
                   <div className="space-y-2">
@@ -202,7 +202,7 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="your@email.com"
                       required
-                      className="bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
+                      className="bg-tint border-hairline focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
                     />
                   </div>
                 </div>
@@ -215,7 +215,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="What's this about?"
                     required
-                    className="bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
+                    className="bg-tint border-hairline focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12"
                   />
                 </div>
 
@@ -228,7 +228,7 @@ const Contact = () => {
                     placeholder="Tell me about your project..."
                     required
                     rows={5}
-                    className="bg-white/5 border-white/10 focus:border-primary/50 focus:ring-primary/20 rounded-xl resize-none"
+                    className="bg-tint border-hairline focus:border-primary/50 focus:ring-primary/20 rounded-xl resize-none"
                   />
                 </div>
 
@@ -239,9 +239,9 @@ const Contact = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting || isSubmitted}
-                    className={`w-full h-12 rounded-xl font-medium transition-all ${isSubmitted
-                      ? 'bg-green-500 hover:bg-green-500'
-                      : 'bg-gradient-to-r from-primary to-secondary hover:shadow-glow'
+                    className={`w-full h-12 rounded-xl font-medium text-primary-foreground transition-all ${isSubmitted
+                      ? 'bg-success hover:bg-success'
+                      : 'gradient-bg-solid hover:shadow-glow'
                       }`}
                   >
                     {isSubmitting ? (
@@ -265,8 +265,8 @@ const Contact = () => {
               </form>
 
               {/* Decorative Elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl" />
-              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-secondary/20 rounded-full blur-2xl" />
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-secondary/20 rounded-full blur-2xl pointer-events-none" />
             </div>
           </motion.div>
         </div>
