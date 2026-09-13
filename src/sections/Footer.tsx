@@ -8,8 +8,7 @@ interface FooterLink {
 
 interface FooterColumn {
   title: string;
-  links?: FooterLink[];
-  type?: 'links' | 'social';
+  links: FooterLink[];
 }
 
 const Footer = () => {
@@ -20,26 +19,25 @@ const Footer = () => {
       name: 'GitHub',
       url: 'https://github.com/iamawaisgillani',
       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg',
-      color: 'from-gray-700 to-black' // Dark gradient
+      color: 'from-primary to-secondary' // One accent wash for all three
     },
     {
       name: 'LinkedIn',
       url: 'https://www.linkedin.com/in/syed-muhammad-awais-gillani',
       icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg',
-      color: 'from-blue-600 to-blue-800' // LinkedIn Blue
+      color: 'from-primary to-secondary' // One accent wash for all three
     },
     {
       name: 'Email',
       url: 'mailto:iamawaisgillani@gmail.com',
       icon: 'https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg', // Using dedicated Gmail icon
-      color: 'from-red-500 to-red-600' // Gmail Red
+      color: 'from-primary to-secondary' // One accent wash for all three
     }
   ];
 
   const footerColumns: FooterColumn[] = [
     {
       title: 'Navigation',
-      type: 'links',
       links: [
         { name: 'Home', href: '#hero' },
         { name: 'About', href: '#about' },
@@ -50,7 +48,6 @@ const Footer = () => {
     },
     {
       title: 'Services',
-      type: 'links',
       links: [
         { name: 'Web Scraping', href: '#projects' },
         { name: 'Automation', href: '#projects' },
@@ -63,7 +60,7 @@ const Footer = () => {
   return (
     <footer className="relative overflow-hidden bg-background">
       {/* Gradient Top Border */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="h-px w-full rule-accent opacity-40" />
 
       {/* Main Footer Content */}
       <div className="relative py-16">
@@ -85,7 +82,7 @@ const Footer = () => {
                 transition={{ duration: 0.5 }}
               >
                 <div className="mb-6">
-                  <h3 className="font-display font-bold text-2xl text-white tracking-tight">Awais Gillani</h3>
+                  <h3 className="font-display font-bold text-2xl text-foreground tracking-tight">Awais Gillani</h3>
                   <p className="text-sm text-primary font-medium mt-1">AI & Python Developer</p>
                 </div>
                 <p className="text-muted-foreground leading-relaxed mb-6 max-w-sm">
@@ -105,11 +102,11 @@ const Footer = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 * (columnIndex + 1) }}
               >
-                <h4 className="font-sans font-semibold text-sm text-white uppercase tracking-widest mb-6">
+                <h4 className="font-sans font-semibold text-sm text-foreground uppercase tracking-widest mb-6">
                   {column.title}
                 </h4>
                 <ul className="space-y-3">
-                  {column.links?.map((link) => (
+                  {column.links.map((link) => (
                     <li key={link.name}>
                       <a
                         href={link.href}
@@ -121,7 +118,7 @@ const Footer = () => {
                             document.querySelector(link.href)?.scrollIntoView({ behavior: 'smooth' });
                           }
                         }}
-                        className="text-sm text-muted-foreground hover:text-white transition-colors inline-flex items-center gap-2 group"
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2 group"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-primary/0 group-hover:bg-primary transition-colors duration-300" />
                         <span className="group-hover:translate-x-1 transition-transform duration-300">{link.name}</span>
@@ -140,7 +137,7 @@ const Footer = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h4 className="font-sans font-semibold text-sm text-white uppercase tracking-widest mb-6">
+              <h4 className="font-sans font-semibold text-sm text-foreground uppercase tracking-widest mb-6">
                 Connect
               </h4>
               <div className="flex flex-wrap gap-4">
@@ -152,14 +149,16 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     whileHover={{ y: -5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="group relative flex items-center justify-center w-14 h-14 rounded-2xl bg-white/5 border border-white/10 overflow-hidden transition-all duration-300 hover:border-white/20 hover:shadow-lg hover:shadow-primary/10"
+                    className="group relative flex items-center justify-center w-14 h-14 rounded-2xl bg-tint border border-hairline overflow-hidden transition-all duration-300 hover:border-hairline-strong hover:shadow-lg hover:shadow-primary/10"
                   >
                     {/* Gradient Background on Hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${social.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${social.color} opacity-0 group-hover:opacity-25 transition-opacity duration-300`} />
 
                     <img
                       src={social.icon}
                       alt={social.name}
+                      loading="lazy"
+                      decoding="async"
                       className="w-7 h-7 object-contain relative z-10 transition-transform duration-300 group-hover:scale-110"
                     />
                   </motion.a>
@@ -177,11 +176,11 @@ const Footer = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4"
+            className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4"
           >
             {/* Copyright */}
             <div className="text-sm text-muted-foreground">
-              © {currentYear} <span className="text-white font-medium">Syed Muhammad Awais Gillani</span>.
+              © {currentYear} <span className="text-foreground font-medium">Syed Muhammad Awais Gillani</span>.
             </div>
           </motion.div>
         </div>

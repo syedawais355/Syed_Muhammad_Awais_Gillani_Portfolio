@@ -1,8 +1,29 @@
 import { useEffect, useMemo, memo } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
+import { useTheme } from 'next-themes';
+
+/** Brand-family particles only — warm amber / copper, never blue. */
+const PALETTE = {
+  dark: {
+    particles: ['#fbbf24', '#f59e0b', '#fb923c'],
+    link: '#f59e0b',
+    linkOpacity: 0.22,
+    opacity: { min: 0.25, max: 0.6 },
+  },
+  light: {
+    particles: ['#b45309', '#c2410c', '#a16207'],
+    link: '#b45309',
+    linkOpacity: 0.12,
+    opacity: { min: 0.10, max: 0.26 },
+  },
+} as const;
 
 const ParticlesBackground = memo(() => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== 'light';
+  const palette = isDark ? PALETTE.dark : PALETTE.light;
+
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
@@ -26,11 +47,11 @@ const ParticlesBackground = memo(() => {
         events: {
           onClick: {
             enable: true,
-            mode: 'push' as any,
+            mode: 'push' as const,
           },
           onHover: {
             enable: true,
-            mode: 'grab' as any,
+            mode: 'grab' as const,
             parallax: {
               enable: false,
               force: 60,
@@ -51,7 +72,7 @@ const ParticlesBackground = memo(() => {
             links: {
               blink: false,
               consent: false,
-              opacity: 0.8,
+              opacity: isDark ? 0.8 : 0.45,
             },
           },
           repulse: {
@@ -63,25 +84,17 @@ const ParticlesBackground = memo(() => {
       },
       particles: {
         color: {
-          value: [
-            '#8b5cf6',  // Purple
-            '#06b6d4',  // Cyan
-            '#ec4899',  // Pink
-            '#a78bfa',  // Light purple
-            '#3b82f6',  // Blue
-            '#10b981',  // Green
-            '#f59e0b',  // Amber
-          ],
+          value: [...palette.particles],
         },
         links: {
           color: {
-            value: '#8b5cf6',
+            value: palette.link,
           },
           distance: 180,
           enable: true,
           frequency: 1,
-          opacity: 0.35,
-          width: 1.5,
+          opacity: palette.linkOpacity,
+          width: 1,
           triangles: {
             enable: false,
             frequency: 0.05,
@@ -125,13 +138,13 @@ const ParticlesBackground = memo(() => {
         },
         opacity: {
           value: {
-            min: 0.3,
-            max: 0.7,
+            min: palette.opacity.min,
+            max: palette.opacity.max,
           },
           animation: {
             enable: true,
             speed: 0.8,
-            minimumValue: 0.2,
+            minimumValue: palette.opacity.min,
             sync: false,
             destroy: 'none' as const,
             startValue: 'random' as const,
@@ -187,7 +200,7 @@ const ParticlesBackground = memo(() => {
         shadow: {
           blur: 8,
           color: {
-            value: '#8b5cf6',
+            value: palette.link,
           },
           enable: false,
           offset: {
@@ -240,11 +253,12 @@ const ParticlesBackground = memo(() => {
         position: 'fixed',
       },
     }),
-    []
+    [isDark, palette]
   );
 
+  // Remount on theme change so tsparticles re-reads the palette.
   return (
-    <Particles id="tsparticles" options={options} />
+    <Particles id="tsparticles" key={isDark ? 'dark' : 'light'} options={options} />
   );
 });
 

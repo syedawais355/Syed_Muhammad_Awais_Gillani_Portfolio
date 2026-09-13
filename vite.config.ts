@@ -12,4 +12,23 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Split the big vendors so they cache independently and download in
+        // parallel instead of arriving as one 560 kB blocking chunk.
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          motion: ['framer-motion'],
+        },
+      },
+    },
+  },
+  server: {
+    watch: {
+      // Browser downloads landing in the project folder are locked by the OS
+      // while in flight, which kills the dev server's watcher on Windows.
+      ignored: ['**/*.crdownload', '**/*.part', '**/*.tmp', '**/~$*'],
+    },
+  },
 });

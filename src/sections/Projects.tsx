@@ -20,8 +20,8 @@ const projects: Project[] = [
     description: 'Automates YouTube analytics using Google Apps Script. Handles multiple channels with OAuth 2.0 authentication and stores comprehensive analytics data in Google Sheets for easy analysis and reporting.',
     tech: ['Google Apps Script', 'YouTube API', 'OAuth 2.0', 'Google Sheets'],
     icon: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Apps_Script.svg',
-    gradient: 'from-red-500/20 via-rose-500/10 to-pink-500/20',
-    accentGradient: 'from-red-500 to-rose-600',
+    gradient: 'from-amber-500/16 via-orange-500/10 to-transparent',
+    accentGradient: 'from-amber-500 to-orange-600',
     tilt: -2,
   },
   {
@@ -29,8 +29,8 @@ const projects: Project[] = [
     description: 'A FastAPI-powered web service that extracts company or organization names from website HTML content. Features intelligent data cleaning and outputs structured CSV files for further processing.',
     tech: ['FastAPI', 'Python', 'BeautifulSoup', 'Pandas', 'CSV Processing'],
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/fastapi/fastapi-original.svg',
-    gradient: 'from-teal-500/20 via-cyan-500/10 to-blue-500/20',
-    accentGradient: 'from-teal-500 to-cyan-600',
+    gradient: 'from-orange-500/16 via-amber-400/10 to-transparent',
+    accentGradient: 'from-orange-500 to-amber-600',
     tilt: 1,
   },
   {
@@ -38,8 +38,8 @@ const projects: Project[] = [
     description: 'A Django-based platform that collects job listings from multiple websites using custom scrapers. Stores daily data in organized Google Sheets tabs with automated scheduling and notifications.',
     tech: ['Django', 'Selenium', 'PostgreSQL', 'Google Sheets API', 'Cron Jobs'],
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/django/django-plain.svg',
-    gradient: 'from-blue-500/20 via-indigo-500/10 to-purple-500/20',
-    accentGradient: 'from-blue-500 to-indigo-600',
+    gradient: 'from-yellow-500/16 via-amber-500/10 to-transparent',
+    accentGradient: 'from-yellow-600 to-amber-600',
     tilt: -1,
   },
   {
@@ -47,8 +47,8 @@ const projects: Project[] = [
     description: 'Comprehensive Django system managing multiple website scrapers for MRO (Maintenance, Repair, Operations) products. Automatically fixes price/availability issues, handles failed orders, and repairs automation flows.',
     tech: ['Django', 'Selenium Grid', 'Redis', 'Celery', 'Monitoring Dashboard'],
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
-    gradient: 'from-purple-500/20 via-violet-500/10 to-fuchsia-500/20',
-    accentGradient: 'from-purple-500 to-violet-600',
+    gradient: 'from-red-500/16 via-orange-500/10 to-transparent',
+    accentGradient: 'from-red-500 to-orange-600',
     tilt: 2,
   },
   {
@@ -56,8 +56,8 @@ const projects: Project[] = [
     description: 'Google Apps Script solution that reads Google Sheet rows, scrapes public arrest/jail sources daily, updates defendant statuses, and sends email alerts when new data is found.',
     tech: ['Google Apps Script', 'Web Scraping', 'Email Automation', 'Google Sheets'],
     icon: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Apps_Script.svg',
-    gradient: 'from-amber-500/20 via-orange-500/10 to-red-500/20',
-    accentGradient: 'from-amber-500 to-orange-600',
+    gradient: 'from-orange-400/16 via-yellow-500/10 to-transparent',
+    accentGradient: 'from-orange-500 to-yellow-600',
     tilt: -1.5,
   },
 ];
@@ -75,12 +75,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       className="group relative h-full hover:z-10"
     >
       <motion.div
-        className="relative h-full flex flex-col p-8 rounded-3xl overflow-hidden"
-        style={{
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          rotate: `${project.tilt}deg`,
-        }}
+        className="surface surface-hover relative h-full flex flex-col p-8 rounded-3xl overflow-hidden"
+        style={{ rotate: `${project.tilt}deg` }}
         whileHover={{ y: -10, scale: 1.02, rotate: 0 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
       >
@@ -92,34 +88,29 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           <div className="shine-sweep absolute inset-0" />
         </div>
 
-        {/* Border highlight */}
-        <div className="absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-300 pointer-events-none" />
-
         {/* Content */}
         <div className="relative z-10 flex flex-col h-full">
 
           {/* Icon */}
           <div className="relative w-16 h-16 mb-6 flex-shrink-0">
-            <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${project.accentGradient} blur-lg opacity-50 group-hover:opacity-80 transition-opacity duration-300`} />
+            <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${project.accentGradient} blur-lg opacity-35 group-hover:opacity-60 transition-opacity duration-300`} />
             <motion.div
-              className="relative w-16 h-16 rounded-2xl p-3.5 flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
+              className="relative w-16 h-16 rounded-2xl p-3.5 flex items-center justify-center bg-tint-strong border border-hairline"
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               <img
                 src={project.icon}
                 alt={`${project.title} icon`}
-                className="w-9 h-9 object-contain drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]"
+                loading="lazy"
+                decoding="async"
+                className="w-9 h-9 object-contain"
               />
             </motion.div>
           </div>
 
           {/* Title */}
-          <h3 className="text-2xl font-display font-bold mb-3 leading-tight text-white">
+          <h3 className="text-2xl font-display font-bold mb-3 leading-tight text-foreground">
             {project.title}
           </h3>
 
@@ -133,7 +124,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             {project.tech.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1.5 text-xs font-medium rounded-full bg-white/5 text-muted-foreground border border-white/10 group-hover:border-primary/25 group-hover:text-white/80 transition-colors duration-300 cursor-default"
+                className="px-3 py-1.5 text-xs font-medium rounded-full bg-tint text-muted-foreground border border-hairline group-hover:border-primary/30 group-hover:text-foreground/80 transition-colors duration-300 cursor-default"
               >
                 {tech}
               </span>
@@ -147,11 +138,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:text-white transition-colors duration-200"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 100%)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                }}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium bg-tint border border-hairline text-muted-foreground hover:text-foreground hover:border-hairline-strong transition-colors duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15 }}
@@ -165,8 +152,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r ${project.accentGradient}`}
-                style={{ border: '1px solid rgba(255, 255, 255, 0.15)' }}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r ${project.accentGradient} shadow-glow`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.15 }}
@@ -176,7 +162,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               </motion.a>
             )}
             {/* Arrow — visible on hover via CSS */}
-            <div className="ml-auto p-2.5 rounded-xl bg-white/5 text-muted-foreground border border-white/10 opacity-0 group-hover:opacity-100 group-hover:text-white group-hover:border-white/20 transition-all duration-200">
+            <div className="ml-auto p-2.5 rounded-xl bg-tint text-muted-foreground border border-hairline opacity-0 group-hover:opacity-100 group-hover:text-foreground group-hover:border-hairline-strong transition-all duration-200">
               <ArrowUpRight size={17} />
             </div>
           </div>
@@ -213,7 +199,7 @@ const Projects = () => {
         >
           <div className="flex items-center justify-center gap-3 mb-6">
             <motion.div
-              className="w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-secondary"
+              className="w-16 h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-secondary"
               initial={{ scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -222,7 +208,7 @@ const Projects = () => {
               Projects
             </span>
             <motion.div
-              className="w-16 h-0.5 bg-gradient-to-r from-secondary via-primary to-transparent"
+              className="w-16 h-0.5 rounded-full bg-gradient-to-r from-secondary via-primary to-transparent"
               initial={{ scaleX: 0 }}
               animate={isInView ? { scaleX: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -243,15 +229,6 @@ const Projects = () => {
             <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
-
-        {/* View All Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="text-center"
-        >
-        </motion.div>
       </div>
     </section>
   );

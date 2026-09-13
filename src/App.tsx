@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ParticlesBackground from './components/ParticlesBackground';
 import Navigation from './components/Navigation';
 import Hero from './sections/Hero';
 import About from './sections/About';
@@ -10,11 +9,15 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 import './App.css';
 
+// The particle engine is ~a third of the bundle and is pure decoration, so it
+// is split out and streamed in after the page is interactive. Nothing about the
+// effect changes — it just stops blocking first paint.
+const ParticlesBackground = lazy(() => import('./components/ParticlesBackground'));
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate initial loading
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
@@ -68,23 +71,30 @@ function App() {
           transition={{ duration: 0.5 }}
         >
           {/* Particle Background */}
-          <ParticlesBackground />
+          <Suspense fallback={null}>
+            <ParticlesBackground />
+          </Suspense>
           
-          {/* Gradient Overlay - Fixed background elements that don't move on scroll */}
+          {/* Ambient light — three soft accent washes, tuned per theme so light
+              mode stays airy and dark mode keeps the canvas black-dominant */}
           <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-            <div 
-              className="fixed w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse-glow" 
+            <div
+              className="ambient-blob fixed w-[520px] h-[520px] bg-primary/[0.08] dark:bg-primary/[0.13] rounded-full blur-[130px] animate-pulse-glow"
               style={{ top: '5%', left: '15%' }}
             />
-            <div 
-              className="fixed w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] animate-pulse-glow" 
+            <div
+              className="ambient-blob fixed w-[420px] h-[420px] bg-secondary/[0.07] dark:bg-secondary/[0.10] rounded-full blur-[110px] animate-pulse-glow"
               style={{ bottom: '15%', right: '15%', animationDelay: '1s' }}
             />
-            <div 
-              className="fixed w-[700px] h-[700px] bg-accent/5 rounded-full blur-[150px]" 
+            <div
+              className="ambient-blob fixed w-[700px] h-[700px] bg-accent/[0.05] dark:bg-accent/[0.07] rounded-full blur-[160px] opacity-60"
               style={{ top: '40%', left: '50%', transform: 'translate(-50%, -50%)' }}
             />
           </div>
+
+          {/* Fine grain so the large flat areas never look plasticky */}
+          <div className="noise-overlay" aria-hidden />
+
           
           {/* Navigation */}
           <Navigation />
